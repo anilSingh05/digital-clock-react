@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy JAR app to Azure Web App - my-first-web-app-as688
+name: Build and deploy Node.js app to Azure Web App - my-first-web-app-as688
 
 on:
   push:
@@ -18,23 +18,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Java version
-        uses: actions/setup-java@v4
+      - name: Set up Node.js version
+        uses: actions/setup-node@v3
         with:
-          java-version: '17'
-          distribution: 'microsoft'
+          node-version: '20.x'
 
-      - name: Build with Maven
-        run: mvn clean install
-
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run build --if-present
+          npm run test --if-present
+      
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          name: node-app
+          path: .
 
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'
@@ -47,20 +49,20 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: java-app
+          name: node-app
       
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_FECF3D1609434305B37FFFAF8C324DAE }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_AF9696A465A94870B2AEEC21E40DE3EB }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_2EFAA400E6964DDEBE712DBFCD6F512E }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_1D076C74904F47F496FA8E7D4888530B }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_D94A2A4B67CC4988B20BF875D7AFC1A4 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_64891615E9764B008DDF9C1E2FDC0FC4 }}
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
+      - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
+        id: deploy-to-webapp
         with:
           app-name: 'my-first-web-app-as688'
           slot-name: 'Production'
-          package: '*.jar'
+          package: .
           
