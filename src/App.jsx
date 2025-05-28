@@ -24,7 +24,7 @@ function App() {
   return (
     <div className="digital-clock">
       <div className="clock">
-      {formatTime}
+        {formatTime}
       </div>
     </div>
   )

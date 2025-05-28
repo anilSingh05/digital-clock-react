@@ -1,0 +1,11 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/ad1fdc5c-53e9-4b9a-91a4-a33d9e61cf7d/resourceGroups/as688-az-rg/providers/Microsoft.Web/sites/my-first-web-app-as688",
+    "appService.deploySubpath": "dist",
+    "azureFunctions.deploySubpath": ".",
+    "azureFunctions.postDeployTask": "npm install (functions)",
+    "azureFunctions.projectLanguage": "JavaScript",
+    "azureFunctions.projectRuntime": "~4",
+    "debug.internalConsoleOptions": "neverOpen",
+    "azureFunctions.projectLanguageModel": 4,
+    "azureFunctions.preDeployTask": "npm prune (functions)"
+}
